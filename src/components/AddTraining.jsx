@@ -87,7 +87,6 @@ function AddTraining(props) {
                         name='customer'
                         select
                         value={training.customer}
-                        multiline
                         onChange={handleInputChange}
                         fullWidth>
 

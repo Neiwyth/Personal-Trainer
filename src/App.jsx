@@ -3,6 +3,7 @@ import { Fragment, useState, } from 'react'
 import { AppBar, Tab, Tabs, Typography } from '@mui/material';
 import Customerlist from './components/Customerlist'
 import Trainingslist from './components/Trainingslist';
+import Calendar from './components/Calendar';
 
 function App() {
 
@@ -20,11 +21,13 @@ function App() {
             <Tabs value={value} onChange={handleChange}>
               <Tab value='Customers' label='Customers' />
               <Tab value='Trainings' label='Trainings' />
+              <Tab value='Calendar' label='Calendar' />
             </Tabs>
           </Typography>
         </AppBar>
         {value === 'Customers' && <Customerlist />}
         {value === 'Trainings' && <Trainingslist />}
+        {value === 'Calendar' && <Calendar />}
       </div>
     </Fragment>
   )
