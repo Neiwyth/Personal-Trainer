@@ -114,6 +114,7 @@ function Customerlist() {
                     <FileDownload />
                 </CSVLink>
             </IconButton>
+
             <div className='ag-theme-alpine-dark'
                 style={{ height: '520px', width: 'auto', margin: 'auto', zIndex: 1 }}>
                 <AgGridReact
@@ -124,6 +125,7 @@ function Customerlist() {
                     suppressAutoPageSize={true}
                 />
             </div>
+
             <Snackbar
                 open={open}
                 autoHideDuration={3000}
