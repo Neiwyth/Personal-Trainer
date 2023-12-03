@@ -2,15 +2,19 @@ import { Fragment, useEffect, useState } from 'react'
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import { Button } from '@mui/material';
+import { Button, IconButton, Snackbar } from '@mui/material';
 import AddCustomer from './AddCustomer';
 import EditCustomer from './EditCustomer';
+import { CSVLink } from 'react-csv';
+import { FileDownload } from '@mui/icons-material';
 // import 'ag-grid-community/styles/ag-theme-material.css';
 
 
 function Customerlist() {
 
     const [customers, setCustomers] = useState([]);
+    const [msg, setMsg] = useState('');
+    const [open, setOpen] = useState(false);
 
     const columns = [
         { field: 'firstname', filter: true, sortable: true },
@@ -30,6 +34,12 @@ function Customerlist() {
         }
     ]
 
+    const csvData = [
+        ['Firstname', 'Lastname', 'Streetaddress', 'Postcode', 'City', 'Email', 'Phone'], //headers
+        ...customers.map(customer => [ //rows
+            customer.firstname, customer.lastname, customer.streetaddress, customer.postcode, customer.city, customer.email, customer.phone])
+    ]
+
     useEffect(() => { getCustomers() }, []);
     const URL = 'http://traineeapp.azurewebsites.net/api/customers'
 
@@ -47,7 +57,8 @@ function Customerlist() {
             fetch(params.data.links[0].href, { method: 'DELETE' })
                 .then(resData => {
                     if (resData.ok) {
-                        alert('Customer deleted');
+                        setMsg('Customer deleted successfully');
+                        setOpen(true);
                         getCustomers();
                     } else {
                         alert('Something went wrong: ' + resData.status);
@@ -65,7 +76,8 @@ function Customerlist() {
         })
             .then(resData => {
                 if (resData.ok) {
-                    alert('Customer added');
+                    setMsg('Customer added successfully');
+                    setOpen(true);
                     getCustomers();
                 } else {
                     alert('Something went wrong: ' + resData.status);
@@ -82,7 +94,8 @@ function Customerlist() {
         })
             .then(resData => {
                 if (resData.ok) {
-                    alert('Customer updated');
+                    setMsg('Customer updated successfully');
+                    setOpen(true);
                     getCustomers();
                 } else {
                     alert('Something went wrong: ' + resData.status);
@@ -95,8 +108,14 @@ function Customerlist() {
     return (
         <Fragment>
             <AddCustomer addCustomer={addCustomer} />
+
+            <IconButton style={{ left: 750, top: 53, zIndex: 2 }}>
+                <CSVLink data={csvData} filename='customerdata.csv'>
+                    <FileDownload />
+                </CSVLink>
+            </IconButton>
             <div className='ag-theme-alpine-dark'
-                style={{ height: '520px', width: 'auto', margin: 'auto' }}>
+                style={{ height: '520px', width: 'auto', margin: 'auto', zIndex: 1 }}>
                 <AgGridReact
                     rowData={customers}
                     columnDefs={columns}
@@ -105,6 +124,12 @@ function Customerlist() {
                     suppressAutoPageSize={true}
                 />
             </div>
+            <Snackbar
+                open={open}
+                autoHideDuration={3000}
+                onClose={() => setOpen(false)}
+                message={msg}
+            />
         </Fragment >
     )
 }

@@ -2,13 +2,15 @@ import { AgGridReact } from "ag-grid-react";
 import dayjs from "dayjs";
 import { Fragment, useEffect, useState } from "react";
 import AddTraining from "./AddTraining";
-import { Button } from "@mui/material";
+import { Button, Snackbar } from "@mui/material";
 
 
 
 function Trainingslist() {
 
     const [trainings, setTrainings] = useState([]);
+    const [msg, setMsg] = useState('');
+    const [open, setOpen] = useState(false);
 
     const columns = [
         {
@@ -19,6 +21,8 @@ function Trainingslist() {
         },
         { headerName: 'Duration (minutes)', field: 'duration', filter: true, sortable: true },
         { field: 'activity', filter: true, sortable: true },
+
+        // conditionally render customer name if customer exists
         { headerName: 'Customer', valueGetter: (params) => params.data.customer ? params.data.customer.firstname + ' ' + params.data.customer.lastname : '', filter: true, sortable: true },
         {
             cellRenderer: params => <Button style={{ margin: 5 }} variant='contained' color='error' size='small' onClick={() => deleteTraining(params.data.id)}>Delete</Button>,
@@ -38,7 +42,7 @@ function Trainingslist() {
             .then(resData => {
                 setTrainings(resData)
             })
-            .catch(err => console.log(err));
+            .catch(e => console.log(e));
     }
 
     const deleteTraining = (id) => {
@@ -46,7 +50,8 @@ function Trainingslist() {
             fetch(ADD_URL + `/${id}`, { method: 'DELETE' })
                 .then(resData => {
                     if (resData.ok) {
-                        alert('Training deleted');
+                        setMsg('Training deleted successfully');
+                        setOpen(true);
                         getTrainings();
                     } else {
                         alert('Something went wrong: ' + resData.status);
@@ -64,7 +69,8 @@ function Trainingslist() {
         })
             .then(res => {
                 if (res.ok) {
-                    alert('Training added');
+                    setMsg('Training added successfully');
+                    setOpen(true);
                     getTrainings();
                 } else {
                     alert('Something went wrong: ' + res.status);
@@ -85,6 +91,12 @@ function Trainingslist() {
                     pagination={true}
                     paginationPageSize={10}
                     suppressAutoPageSize={true}
+                />
+                <Snackbar
+                    open={open}
+                    autoHideDuration={3000}
+                    onClose={() => setOpen(false)}
+                    message={msg}
                 />
             </div>
         </Fragment >
