@@ -41,7 +41,7 @@ function Customerlist() {
     ]
 
     useEffect(() => { getCustomers() }, []);
-    const URL = 'http://traineeapp.azurewebsites.net/api/customers'
+    const URL = 'https://traineeapp.azurewebsites.net/api/customers'
 
     const getCustomers = () => {
         fetch(URL)
@@ -109,14 +109,14 @@ function Customerlist() {
         <Fragment>
             <AddCustomer addCustomer={addCustomer} />
 
-            <IconButton style={{ left: 750, top: 53, zIndex: 2 }}>
+            <IconButton style={{ left: 715, top: 53, zIndex: 2 }}>
                 <CSVLink data={csvData} filename='customerdata.csv'>
                     <FileDownload />
                 </CSVLink>
             </IconButton>
 
             <div className='ag-theme-alpine-dark'
-                style={{ height: '520px', width: 'auto', margin: 'auto', zIndex: 1 }}>
+                style={{ height: '520px', width: '101rem', margin: 'auto', zIndex: 1 }}>
                 <AgGridReact
                     rowData={customers}
                     columnDefs={columns}

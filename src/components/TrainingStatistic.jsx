@@ -8,8 +8,9 @@ function Statistics() {
     const [data, setData] = useState([]);
 
 
+    const URL = 'https://traineeapp.azurewebsites.net/gettrainings'
     useEffect(() => {
-        fetch('https://traineeapp.azurewebsites.net/gettrainings')
+        fetch(URL)
             .then(res => res.json())
             .then(resData => {
                 const groupedActivityData = _.groupBy(resData, 'activity');

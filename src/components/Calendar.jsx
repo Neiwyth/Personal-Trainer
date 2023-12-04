@@ -25,8 +25,11 @@ function TrainingCalendar() {
 
     const eventFormat = (list) => {
         const newEventList = list.map((event) => {
+            // null check for customer
+            const customerName = event.customer ? event.customer.firstname + ' ' + event.customer.lastname : 'N/A';
+
             return {
-                title: event.activity + ' - ' + event.customer.firstname + ' ' + event.customer.lastname,
+                title: event.activity + ' - ' + customerName,
                 start: moment(event.date).toDate(),
                 end: moment(event.date).add(event.duration, 'minutes').toDate()
             }
