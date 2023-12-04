@@ -36,6 +36,7 @@ function Trainingslist() {
     const URL = 'https://traineeapp.azurewebsites.net/gettrainings'
     const ADD_URL = 'https://traineeapp.azurewebsites.net/api/trainings'
 
+    // fetch trainings
     const getTrainings = () => {
         fetch(URL)
             .then(res => res.json())
@@ -45,6 +46,7 @@ function Trainingslist() {
             .catch(e => console.log(e));
     }
 
+    // delete selected training
     const deleteTraining = (id) => {
         if (window.confirm('Are you sure?')) {
             fetch(ADD_URL + `/${id}`, { method: 'DELETE' })
@@ -61,6 +63,7 @@ function Trainingslist() {
         }
     }
 
+    // add new training
     const addTraining = (training) => {
         fetch(ADD_URL, {
             method: 'POST',

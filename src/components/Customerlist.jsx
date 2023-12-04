@@ -34,6 +34,7 @@ function Customerlist() {
         }
     ]
 
+    // method to convert customers array to csv format
     const csvData = [
         ['Firstname', 'Lastname', 'Streetaddress', 'Postcode', 'City', 'Email', 'Phone'], //headers
         ...customers.map(customer => [ //rows
@@ -43,6 +44,7 @@ function Customerlist() {
     useEffect(() => { getCustomers() }, []);
     const URL = 'https://traineeapp.azurewebsites.net/api/customers'
 
+    // fetch customers
     const getCustomers = () => {
         fetch(URL)
             .then(res => res.json())
@@ -52,6 +54,7 @@ function Customerlist() {
             .catch(err => console.log(err));
     }
 
+    // delete selected customer
     const deleteCustomer = (params) => {
         if (window.confirm('Are you sure?')) {
             fetch(params.data.links[0].href, { method: 'DELETE' })
@@ -68,6 +71,7 @@ function Customerlist() {
         }
     }
 
+    // add new customer
     const addCustomer = (customer) => {
         fetch(URL, {
             method: 'POST',
@@ -86,6 +90,7 @@ function Customerlist() {
             .catch(e => console.log(e));
     }
 
+    // update customer
     const updateCustomer = (customer, link) => {
         fetch(link, {
             method: 'PUT',
@@ -109,14 +114,14 @@ function Customerlist() {
         <Fragment>
             <AddCustomer addCustomer={addCustomer} />
 
-            <IconButton style={{ left: 715, top: 53, zIndex: 2 }}>
+            <IconButton style={{ left: 715, top: 55, zIndex: 2 }}>
                 <CSVLink data={csvData} filename='customerdata.csv'>
                     <FileDownload />
                 </CSVLink>
             </IconButton>
 
             <div className='ag-theme-alpine-dark'
-                style={{ height: '520px', width: '101rem', margin: 'auto', zIndex: 1 }}>
+                style={{ height: '520px', width: '101rem', margin: 'auto' }}>
                 <AgGridReact
                     rowData={customers}
                     columnDefs={columns}

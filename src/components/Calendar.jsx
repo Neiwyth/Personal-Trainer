@@ -39,12 +39,19 @@ function TrainingCalendar() {
 
     return (
         <Fragment>
-            <Calendar
-                localizer={localizer}
-                events={events}
-                startAccessor='start'
-                endAccessor='end'
-                style={{ height: 800 }} />
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Calendar
+                    localizer={localizer}
+                    events={events}
+                    startAccessor='start'
+                    endAccessor='end'
+                    step={60}
+                    style={{
+                        height: 700, width: 1500,
+                        color: 'slategrey',
+                    }}
+                />
+            </div>
         </Fragment>
     )
 }

@@ -28,11 +28,11 @@ function Statistics() {
     return (
         <ResponsiveContainer width='100%' height={750}>
             <BarChart data={data}>
-                <XAxis dataKey='activity' />
-                <YAxis>
-                    <Label value='Duration (min)' angle={-90} position='insideLeft' style={{ textAnchor: 'middle' }} />
+                <XAxis dataKey='activity' tick={{ stroke: 'white' }} />
+                <YAxis tick={{ stroke: 'white' }}>
+                    <Label value='Duration (min)' angle={-90} position='insideLeft' style={{ textAnchor: 'middle', stroke: 'white' }} />
                 </YAxis>
-                <Bar dataKey='duration' fill='lightgrey' />
+                <Bar dataKey='duration' fill='skyblue' />
             </BarChart>
         </ResponsiveContainer>
     );
